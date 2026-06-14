@@ -1,0 +1,54 @@
+/* ===========================================================================
+   GoSkydive · Typography tokens
+   Brief: "Bold. Rounded. Adventure." Clear to read from a distance,
+   evokes adventure, trust and authority. Figtree across the system.
+   =========================================================================== */
+
+:root {
+  /* --- Families ----------------------------------------------------------- */
+  --font-display: "Figtree", "Segoe UI", system-ui, sans-serif; /* headers     */
+  --font-body:    "Figtree", "Segoe UI", system-ui, sans-serif; /* subhead/body*/
+  --font-mono:    "SFMono-Regular", "Consolas", ui-monospace, monospace; /* altitude readouts / data */
+
+  /* --- Weights ------------------------------------------------------------ */
+  --weight-light:    300;
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+  --weight-extra:    800;
+  --weight-black:    900;  /* hero headlines, oversized altitude numbers      */
+
+  /* --- Type scale (1.25 major-third-ish, tuned for adventure headlines) --- */
+  --text-3xs: 0.6875rem;   /* 11px — legal, overlines                         */
+  --text-2xs: 0.75rem;     /* 12px — captions, badges                         */
+  --text-xs:  0.8125rem;   /* 13px — labels                                   */
+  --text-sm:  0.9375rem;   /* 15px — secondary body                           */
+  --text-md:  1rem;        /* 16px — base body                                */
+  --text-lg:  1.125rem;    /* 18px — lead body                                */
+  --text-xl:  1.375rem;    /* 22px — card titles                             */
+  --text-2xl: 1.75rem;     /* 28px — section subheads                         */
+  --text-3xl: 2.25rem;     /* 36px — page headings                            */
+  --text-4xl: 3rem;        /* 48px — hero                                     */
+  --text-5xl: 4rem;        /* 64px — big hero                                 */
+  --text-6xl: 5.5rem;      /* 88px — cinematic / altitude numerals            */
+
+  /* --- Line heights ------------------------------------------------------- */
+  --leading-none:    1;
+  --leading-tight:   1.1;   /* display headlines                              */
+  --leading-snug:    1.25;
+  --leading-normal:  1.5;   /* body                                           */
+  --leading-relaxed: 1.7;
+
+  /* --- Letter spacing ----------------------------------------------------- */
+  --tracking-tight:   -0.02em;  /* large display                              */
+  --tracking-normal:  0;
+  --tracking-wide:    0.04em;
+  --tracking-caps:    0.08em;   /* uppercase overlines / eyebrows             */
+
+  /* --- Semantic roles ----------------------------------------------------- */
+  --display-weight:  var(--weight-black);
+  --heading-weight:  var(--weight-extra);
+  --body-weight:     var(--weight-regular);
+  --label-weight:    var(--weight-semibold);
+}

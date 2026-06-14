@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/goskydive-design-system-e5a666a6-1c69-4c1b-b0e4-240224ad9301/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/goskydive-design-system-e5a666a6-1c69-4c1b-b0e4-240224ad9301/tokens/colors.css">
+<link rel="stylesheet" href="_ds/goskydive-design-system-e5a666a6-1c69-4c1b-b0e4-240224ad9301/tokens/typography.css">
+<link rel="stylesheet" href="_ds/goskydive-design-system-e5a666a6-1c69-4c1b-b0e4-240224ad9301/tokens/spacing.css">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  @keyframes gskPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.45; } }
+  .gsk-scroll::-webkit-scrollbar { height: 10px; }
+  .gsk-scroll::-webkit-scrollbar-thumb { background: #C2C9D0; border-radius: 999px; }
+</style>
+</helmet>
+
+<div style="font-family: var(--font-body); background: linear-gradient(180deg,#F5F8FA 0%,#ECEFF2 100%); min-height: 100vh; color: var(--adventure-black); -webkit-font-smoothing: antialiased;">
+
+  <!-- ===== HEADER ===== -->
+  <div style="position: sticky; top: 0; z-index: 50; background: linear-gradient(120deg,#003B56 0%,#016A97 45%,#009CDE 100%); box-shadow: 0 6px 18px rgba(13,13,13,0.18);">
+    <div style="max-width: 1320px; margin: 0 auto; padding: 14px 28px; display: flex; align-items: center; gap: 20px;">
+      <img src="assets/GoSkydive_WhiteText.png" alt="GoSkydive" style="height: 46px; width: auto; display: block; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.25));">
+      <div style="display: flex; flex-direction: column; gap: 2px; line-height: 1;">
+        <div style="font-size: 11px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: #4EC6F0;">Office Sweepstake · Race to the Final</div>
+        <div style="font-size: 24px; font-weight: 900; color: #fff; letter-spacing: -0.01em;">World Cup 2026 Live Tracker</div>
+      </div>
+      <div style="flex: 1;"></div>
+      <div style="display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); padding: 8px 16px; border-radius: 999px;">
+        <span style="width: 9px; height: 9px; border-radius: 50%; background: #01AF86; box-shadow: 0 0 0 4px rgba(1,175,134,0.25); animation: gskPulse 1.8s ease-in-out infinite;"></span>
+        <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.75);">Leader</span>
+        <span style="font-size: 15px; font-weight: 900; color: #fff;">{{ leaderName }}</span>
+        <span style="font-size: 13px; font-weight: 700; color: #4EC6F0;">{{ leaderPtsLabel }}</span>
+      </div>
+      <button onClick="{{ onLive }}" style="font-family: inherit; cursor: pointer; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.08); color: #fff; font-weight: 700; font-size: 13px; padding: 10px 16px; border-radius: 999px;">Reset to live</button>
+      <button onClick="{{ onReset }}" style="font-family: inherit; cursor: pointer; border: none; background: #fff; color: #016A97; font-weight: 800; font-size: 13px; padding: 10px 18px; border-radius: 999px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">Clear all</button>
+    </div>
+  </div>
+
+  <div style="max-width: 1320px; margin: 0 auto; padding: 28px;">
+
+    <!-- live status strip -->
+    <div style="display: flex; align-items: center; gap: 14px; background: #ECF6FB; border: 1px solid #B9E0F2; color: #016A97; border-radius: 14px; padding: 12px 18px; margin-bottom: 22px; font-size: 13.5px; font-weight: 600;">
+      <span style="flex: 0 0 auto; display: inline-flex; align-items: center; gap: 7px; background: #009CDE; color: #fff; font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 11px; border-radius: 999px;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #fff; animation: gskPulse 1.8s ease-in-out infinite;"></span>Live</span>
+      <span>Results current through <b>Matchday 1 — Sat 13 June</b>. Groups A–D are in; E–L kick off from 14 June. Tap any W/D/L cell to log new results, and use the ◀ ▶ arrows to send teams through the knockouts.</span>
+    </div>
+
+    <!-- ===== LEADERBOARD ===== -->
+    <div style="background: #fff; border-radius: 24px; box-shadow: 0 16px 40px rgba(13,13,13,0.10); overflow: hidden; margin-bottom: 28px;">
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; padding: 24px 28px 18px; background: linear-gradient(120deg,#003B56,#028CC5); ">
+        <div>
+          <div style="font-size: 12px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: #4EC6F0;">Live Standings</div>
+          <div style="font-size: 30px; font-weight: 900; color: #fff; letter-spacing: -0.02em; line-height: 1.1;">Who's in the running</div>
+        </div>
+        <div style="font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.8); text-align: right; max-width: 280px;">Updates the instant you log a result · 3 teams each</div>
+      </div>
+
+      <div style="padding: 16px 20px 22px;">
+        <sc-for list="{{ leaderboard }}" as="r" hint-placeholder-count="16">
+          <div style="display: flex; align-items: center; gap: 16px; padding: 11px 12px; border-radius: 14px; border-bottom: 1px solid #ECEFF2;">
+            <div style="{{ r.rankStyle }}">{{ r.rank }}</div>
+            <div style="{{ r.colorStyle }}"></div>
+            <div style="width: 132px; flex: 0 0 132px; font-weight: 800; font-size: 16px; color: var(--adventure-black);">{{ r.name }}</div>
+            <div style="display: flex; gap: 6px; flex: 0 0 auto;">
+              <sc-for list="{{ r.chips }}" as="ch" hint-placeholder-count="3">
+                <img src="{{ ch.flag }}" title="{{ ch.title }}" style="{{ ch.style }}">
+              </sc-for>
+            </div>
+            <div style="flex: 1; height: 9px; background: #ECEFF2; border-radius: 999px; overflow: hidden; min-width: 60px;">
+              <div style="{{ r.barStyle }}"></div>
+            </div>
+            <div style="flex: 0 0 78px; text-align: right; font-weight: 900; font-size: 20px; color: var(--adventure-black);">{{ r.pts }}<span style="font-size: 11px; font-weight: 700; color: #9AA3AC; margin-left: 3px;">pts</span></div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- ===== KNOCKOUT TRACKER ===== -->
+    <div style="margin-bottom: 10px; display: flex; align-items: baseline; gap: 12px;">
+      <div style="font-size: 13px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #016A97;">Knockout Tracker</div>
+      <div style="font-size: 13px; color: #6B747C; font-weight: 500;">Teams still flying — advance with the arrows in each group</div>
+    </div>
+    <div class="gsk-scroll" style="display: flex; gap: 14px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 30px;">
+      <sc-for list="{{ koCols }}" as="col" hint-placeholder-count="6">
+        <div style="flex: 0 0 200px; background: #fff; border-radius: 18px; box-shadow: 0 6px 18px rgba(13,13,13,0.07); overflow: hidden; align-self: flex-start;">
+          <div style="{{ col.headStyle }}">
+            <span style="font-weight: 800; font-size: 13px; letter-spacing: 0.02em;">{{ col.label }}</span>
+            <span style="font-weight: 900; font-size: 13px; background: rgba(255,255,255,0.25); border-radius: 999px; min-width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; padding: 0 6px;">{{ col.count }}</span>
+          </div>
+          <div style="padding: 8px;">
+            <sc-if value="{{ col.empty }}" hint-placeholder-val="{{ false }}">
+              <div style="padding: 14px 10px; text-align: center; color: #C2C9D0; font-size: 12.5px; font-weight: 600;">No teams yet</div>
+            </sc-if>
+            <sc-for list="{{ col.teams }}" as="kt" hint-placeholder-count="3">
+              <div style="display: flex; align-items: center; gap: 8px; padding: 7px 8px; border-radius: 10px;">
+                <span style="{{ kt.dotStyle }}"></span>
+                <img src="{{ kt.flag }}" style="width: 24px; height: 17px; border-radius: 3px; object-fit: cover; box-shadow: 0 1px 2px rgba(0,0,0,0.2);">
+                <div style="line-height: 1.15; min-width: 0;">
+                  <div style="font-weight: 700; font-size: 13px; color: var(--adventure-black); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ kt.name }}</div>
+                  <div style="font-weight: 600; font-size: 10.5px; color: #9AA3AC;">{{ kt.ownerName }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <!-- ===== GROUPS ===== -->
+    <div style="margin-bottom: 14px; display: flex; align-items: baseline; gap: 12px;">
+      <div style="font-size: 13px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #016A97;">Group Stage</div>
+      <div style="font-size: 13px; color: #6B747C; font-weight: 500;">Tap the W/D/L cells per team · use ◀ ▶ to send a team through the knockouts</div>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(390px, 1fr)); gap: 16px;">
+      <sc-for list="{{ groups }}" as="g" hint-placeholder-count="12">
+        <div style="background: #fff; border-radius: 18px; box-shadow: 0 8px 22px rgba(13,13,13,0.08); overflow: hidden;">
+          <div style="{{ g.headStyle }}">
+            <span style="font-weight: 900; font-size: 22px; background: rgba(255,255,255,0.22); width: 38px; height: 38px; border-radius: 11px; display: inline-flex; align-items: center; justify-content: center;">{{ g.letter }}</span>
+            <span style="font-weight: 800; font-size: 16px; letter-spacing: 0.02em;">Group {{ g.letter }}</span>
+          </div>
+          <div>
+            <sc-for list="{{ g.teams }}" as="t" hint-placeholder-count="4">
+              <div style="display: flex; align-items: center; gap: 11px; padding: 11px 14px; border-bottom: 1px solid #F0F3F5;">
+                <img src="{{ t.flag }}" style="width: 34px; height: 24px; border-radius: 4px; object-fit: cover; box-shadow: 0 1px 3px rgba(0,0,0,0.22); flex: 0 0 34px;">
+                <div style="min-width: 0; flex: 1;">
+                  <div style="font-weight: 800; font-size: 14.5px; color: var(--adventure-black); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ t.name }}</div>
+                  <div style="{{ t.chipStyle }}">
+                    <span style="{{ t.dotStyle }}">{{ t.ownerInitials }}</span>
+                    <span style="{{ t.ownerTextStyle }}">{{ t.ownerName }}</span>
+                  </div>
+                </div>
+                <div style="display: flex; gap: 4px; flex: 0 0 auto;">
+                  <sc-for list="{{ t.cells }}" as="c" hint-placeholder-count="3">
+                    <button onClick="{{ c.onClick }}" title="Win / Draw / Loss" style="{{ c.style }}">{{ c.txt }}</button>
+                  </sc-for>
+                </div>
+                <div style="display: flex; align-items: center; gap: 2px; flex: 0 0 auto;">
+                  <button onClick="{{ t.onPrev }}" style="font-family: inherit; cursor: pointer; width: 22px; height: 26px; border: 1px solid #DCE1E6; background: #F5F8FA; color: #6B747C; border-radius: 7px 0 0 7px; font-weight: 900; font-size: 12px; line-height: 1;">◀</button>
+                  <span style="{{ t.stageStyle }}">{{ t.stageLabel }}</span>
+                  <button onClick="{{ t.onNext }}" style="font-family: inherit; cursor: pointer; width: 22px; height: 26px; border: 1px solid #DCE1E6; background: #F5F8FA; color: #6B747C; border-radius: 0 7px 7px 0; font-weight: 900; font-size: 12px; line-height: 1;">▶</button>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <!-- ===== SCORING LEGEND / FOOTER ===== -->
+    <div style="margin-top: 30px; background: #fff; border-radius: 18px; box-shadow: 0 6px 18px rgba(13,13,13,0.06); padding: 22px 26px; display: flex; align-items: center; gap: 28px; flex-wrap: wrap;">
+      <img src="assets/GoSkydive_BlueText.png" alt="GoSkydive" style="height: 52px; width: auto;">
+      <div style="flex: 1; min-width: 280px;">
+        <div style="font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #016A97; margin-bottom: 8px;">How the points work</div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <span style="background: var(--green-12); color: #01795c; font-weight: 700; font-size: 12.5px; padding: 5px 12px; border-radius: 999px;">Group win +3</span>
+          <span style="background: var(--orange-12); color: #8a5e00; font-weight: 700; font-size: 12.5px; padding: 5px 12px; border-radius: 999px;">Group draw +1</span>
+          <span style="background: #ECF6FB; color: #016A97; font-weight: 700; font-size: 12.5px; padding: 5px 12px; border-radius: 999px;">Reach R32 +5</span>
+          <span style="background: #ECF6FB; color: #016A97; font-weight: 700; font-size: 12.5px; padding: 5px 12px; border-radius: 999px;">R16 +12</span>
+          <span style="background: #ECF6FB; color: #016A97; font-weight: 700; font-size: 12.5px; padding: 5px 12px; border-radius: 999px;">QF +22</span>
+          <span style="background: #ECF6FB; color: #016A97; font-weight: 700; font-size: 12.5px; padding: 5px 12px; border-radius: 999px;">SF +36</span>
+          <span style="background: #ECF6FB; color: #016A97; font-weight: 700; font-size: 12.5px; padding: 5px 12px; border-radius: 999px;">Final +52</span>
+          <span style="background: #003B56; color: #fff; font-weight: 800; font-size: 12.5px; padding: 5px 12px; border-radius: 999px;">Champion +80</span>
+        </div>
+      </div>
+      <div style="font-size: 12.5px; color: #9AA3AC; font-weight: 600; max-width: 220px; line-height: 1.5;">Your total = your three teams combined. Highest score when the Final whistle blows wins the pot.</div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.KEY = 'gsk-wc26-v2';
+    this.SHORT = ['Group','R32','R16','QF','SF','Final','Champ'];
+    this.KO = [0, 5, 12, 22, 36, 52, 80];
+    this.KO_LABELS = ['Round of 32','Round of 16','Quarter-finals','Semi-finals','Final','Champion'];
+    this.KO_ACCENT = ['#4EC6F0','#009CDE','#028CC5','#016A97','#003B56','#D8940D'];
+    this.PATTERNS = [
+      ['W','W','W'],['W','W','D'],['W','D','D'],['W','D','L'],['W','L','L'],
+      ['D','D','D'],['D','D','L'],['L','L','L'],['W','W','L'],['D','L','L']
+    ];
+    this.data = this.buildData();
+    const st = this.loadState();
+    this.state = { teams: st.teams, sample: st.sample };
+  }
+
+  buildData() {
+    const STAFF = [
+      ['Ryan B','#009CDE'],['Josh W','#01AF86'],['Jess W','#D8940D'],['Mollie C','#E0556B'],
+      ['Paul G-F','#7C5CD8'],['Gavin K','#016A97'],['Jess H','#E08A2B'],['Kevin','#2BB3A3'],
+      ['Jo H','#C0497A'],['Micheal D','#0D6EE0'],['Oli D','#5B8C00'],['Liliya','#B5651D'],
+      ['Gordon B','#8E44AD'],['Pete S','#E1455E'],['Jane B','#3E8E7E'],['Karl H','#4EC6F0']
+    ];
+    const T = [
+      ['Mexico','mx','A','Kevin'],['South Africa','za','A','Karl H'],['Korea Republic','kr','A','Jess H'],['Czechia','cz','A','Jane B'],
+      ['Canada','ca','B','Josh W'],['Qatar','qa','B','Mollie C'],['Switzerland','ch','B','Micheal D'],['Bosnia & Herzegovina','ba','B','Jane B'],
+      ['Brazil','br','C','Karl H'],['Morocco','ma','C','Paul G-F'],['Haiti','ht','C','Jo H'],['Scotland','gb-sct','C','Mollie C'],
+      ['USA','us','D','Pete S'],['Paraguay','py','D','Jess H'],['Australia','au','D','Liliya'],['Türkiye','tr','D','Oli D'],
+      ['Germany','de','E','Ryan B'],['Curaçao','cw','E','Josh W'],["Côte d'Ivoire",'ci','E','Jess W'],['Ecuador','ec','E','Liliya'],
+      ['Netherlands','nl','F','Oli D'],['Japan','jp','F','Micheal D'],['Tunisia','tn','F','Jane B'],['Sweden','se','F','Gordon B'],
+      ['Belgium','be','G','Jo H'],['Egypt','eg','G','Pete S'],['Iran','ir','G','Oli D'],['New Zealand','nz','G','Jess W'],
+      ['Spain','es','H','Liliya'],['Cape Verde','cv','H','Karl H'],['Saudi Arabia','sa','H','Gordon B'],['Uruguay','uy','H','Paul G-F'],
+      ['France','fr','I','Gavin K'],['Senegal','sn','I','Ryan B'],['Norway','no','I','Pete S'],['Iraq','iq','I','Micheal D'],
+      ['Argentina','ar','J','Jess W'],['Algeria','dz','J','Paul G-F'],['Austria','at','J','Kevin'],['Jordan','jo','J','Ryan B'],
+      ['Portugal','pt','K','Josh W'],['Uzbekistan','uz','K','Gordon B'],['Colombia','co','K','Mollie C'],['Congo DR','cd','K','Gavin K'],
+      ['England','gb-eng','L','Jess H'],['Croatia','hr','L','Jo H'],['Ghana','gh','L','Gavin K'],['Panama','pa','L','Kevin']
+    ];
+    const GC = ['#E0556B','#009CDE','#01AF86','#D8940D','#7C5CD8','#016A97','#2BB3A3','#E08A2B','#C0497A','#5B8C00','#0D6EE0','#8E44AD'];
+    const colorOf = {}; const initialsOf = {};
+    STAFF.forEach(([n, c]) => {
+      colorOf[n] = c;
+      const parts = n.split(/[\s-]+/).filter(Boolean);
+      initialsOf[n] = parts.length >= 2 ? (parts[0][0] + parts[1][0]).toUpperCase() : n.slice(0, 2).toUpperCase();
+    });
+    const teams = T.map(([name, code, group, owner]) => ({
+      name, code, group, owner, flag: 'https://flagcdn.com/w80/' + code + '.png'
+    }));
+    const byName = {}; teams.forEach(t => byName[t.name] = t);
+    const letters = [...new Set(teams.map(t => t.group))];
+    const groups = letters.map((L, i) => ({
+      letter: L, color: GC[i % GC.length],
+      teams: teams.filter(t => t.group === L).map(t => t.name)
+    }));
+    return { staff: STAFF.map(([n, c]) => ({ name: n, color: c })), colorOf, initialsOf, teams, byName, groups };
+  }
+
+  gpOf(m) { return m.reduce((a, r) => a + (r === 'W' ? 3 : r === 'D' ? 1 : 0), 0); }
+  hash(s) { let h = 0; for (let i = 0; i < s.length; i++) h += s.charCodeAt(i); return h; }
+
+  blankTeams() {
+    const o = {};
+    this.data.teams.forEach(t => { o[t.name] = { m: [null, null, null], stage: 0 }; });
+    return o;
+  }
+
+  // Real Matchday-1 results, current through Sat 13 June 2026.
+  // Groups E–L kick off from 14 June and are left blank until played.
+  realTeams() {
+    const teams = this.blankTeams();
+    const md1 = {
+      // Group A
+      'Mexico':'W','South Africa':'L','Korea Republic':'W','Czechia':'L',
+      // Group B
+      'Canada':'D','Bosnia & Herzegovina':'D','Switzerland':'D','Qatar':'D',
+      // Group C
+      'Brazil':'D','Morocco':'D','Scotland':'W','Haiti':'L',
+      // Group D
+      'USA':'W','Paraguay':'L','Australia':'W','Türkiye':'L'
+    };
+    Object.keys(md1).forEach(n => { if (teams[n]) teams[n].m = [md1[n], null, null]; });
+    return teams;
+  }
+
+  seededTeams() {
+    const teams = {};
+    this.data.teams.forEach(t => {
+      const p = this.PATTERNS[this.hash(t.name) % this.PATTERNS.length];
+      teams[t.name] = { m: [...p], stage: 0 };
+    });
+    const qualifiers = []; const thirds = [];
+    this.data.groups.forEach(g => {
+      const arr = g.teams.map(n => ({ n, gp: this.gpOf(teams[n].m) })).sort((a, b) => b.gp - a.gp);
+      qualifiers.push(arr[0].n, arr[1].n);
+      thirds.push(arr[2]);
+    });
+    thirds.sort((a, b) => b.gp - a.gp).slice(0, 8).forEach(x => qualifiers.push(x.n));
+    qualifiers.forEach(n => teams[n].stage = 1);
+    const q = qualifiers.map(n => ({ n, gp: this.gpOf(teams[n].m) })).sort((a, b) => b.gp - a.gp);
+    q.forEach((x, idx) => {
+      let st = 1;
+      if (idx < 16) st = 2;
+      if (idx < 8) st = 3;
+      if (idx < 4) st = 4;
+      if (idx < 2) st = 5;
+      if (idx < 1) st = 6;
+      teams[x.n].stage = st;
+    });
+    return teams;
+  }
+
+  loadState() {
+    try {
+      const raw = localStorage.getItem(this.KEY);
+      if (raw) { const o = JSON.parse(raw); if (o && o.teams) return { teams: o.teams, sample: !!o.sample }; }
+    } catch (e) {}
+    return { teams: this.realTeams(), sample: false };
+  }
+
+  save(teams, sample) {
+    try { localStorage.setItem(this.KEY, JSON.stringify({ teams, sample })); } catch (e) {}
+  }
+
+  cycleMatch(name, idx) {
+    this.setState(s => {
+      const teams = { ...s.teams };
+      const t = { ...teams[name], m: [...teams[name].m] };
+      const order = [null, 'W', 'D', 'L'];
+      t.m[idx] = order[(order.indexOf(t.m[idx]) + 1) % 4];
+      teams[name] = t;
+      this.save(teams, false);
+      return { teams, sample: false };
+    });
+  }
+
+  setStage(name, delta) {
+    this.setState(s => {
+      const teams = { ...s.teams };
+      const t = { ...teams[name] };
+      t.stage = Math.max(0, Math.min(6, t.stage + delta));
+      teams[name] = t;
+      this.save(teams, false);
+      return { teams, sample: false };
+    });
+  }
+
+  onReset() {
+    const teams = this.blankTeams();
+    this.save(teams, false);
+    this.setState({ teams, sample: false });
+  }
+
+  onLive() {
+    const teams = this.realTeams();
+    this.save(teams, false);
+    this.setState({ teams, sample: false });
+  }
+
+  cellStyle(res) {
+    const base = {
+      width: '24px', height: '24px', borderRadius: '7px', cursor: 'pointer',
+      fontWeight: '800', fontSize: '12px', display: 'inline-flex', alignItems: 'center',
+      justifyContent: 'center', fontFamily: 'inherit', border: 'none', padding: '0'
+    };
+    if (res === 'W') return { ...base, background: '#01AF86', color: '#fff' };
+    if (res === 'D') return { ...base, background: '#D8940D', color: '#fff' };
+    if (res === 'L') return { ...base, background: '#ECEFF2', color: '#9AA3AC' };
+    return { ...base, background: 'transparent', border: '1.5px dashed #C2C9D0', color: '#C2C9D0' };
+  }
+
+  renderVals() {
+    const D = this.data; const S = this.state; const T = S.teams;
+    const co = D.colorOf;
+
+    // owner totals
+    const totals = {};
+    D.staff.forEach(s => totals[s.name] = 0);
+    D.teams.forEach(t => {
+      const st = T[t.name] || { m: [null, null, null], stage: 0 };
+      totals[t.owner] += this.gpOf(st.m) + this.KO[st.stage];
+    });
+    const maxPts = Math.max(1, ...Object.values(totals));
+
+    // leaderboard
+    const ordered = [...D.staff].sort((a, b) => totals[b.name] - totals[a.name] || a.name.localeCompare(b.name));
+    const medal = ['#E6B400', '#AEB7BF', '#C9863E'];
+    const rankBase = { width: '34px', height: '34px', flex: '0 0 34px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '900', fontSize: '14px' };
+    const chipBase = { width: '30px', height: '21px', borderRadius: '4px', objectFit: 'cover', boxShadow: '0 1px 3px rgba(0,0,0,0.2)' };
+    let lastPts = null, lastRank = 0;
+    const leaderboard = ordered.map((s, i) => {
+      const pts = totals[s.name];
+      const rank = pts === lastPts ? lastRank : i + 1;
+      lastPts = pts; lastRank = rank;
+      const rankStyle = rank <= 3
+        ? { ...rankBase, background: medal[rank - 1], color: '#fff', boxShadow: '0 2px 6px rgba(0,0,0,0.18)' }
+        : { ...rankBase, background: '#F0F3F5', color: '#6B747C' };
+      const chips = D.teams.filter(t => t.owner === s.name).map(t => {
+        const stg = (T[t.name] || {}).stage || 0;
+        return { flag: t.flag, title: t.name + ' · ' + this.SHORT[stg], style: { ...chipBase, opacity: stg === 0 ? '0.78' : '1' } };
+      });
+      return {
+        rank, name: s.name, pts,
+        rankStyle,
+        colorStyle: { width: '5px', height: '38px', borderRadius: '999px', flex: '0 0 5px', background: s.color },
+        barStyle: { width: (pts / maxPts * 100) + '%', height: '100%', borderRadius: '999px', background: s.color, transition: 'width 240ms cubic-bezier(0.16,1,0.3,1)' },
+        chips
+      };
+    });
+
+    const leaderName = leaderboard[0] && leaderboard[0].pts > 0 ? leaderboard[0].name : 'Pending';
+    const leaderPtsLabel = leaderboard[0] && leaderboard[0].pts > 0 ? leaderboard[0].pts + ' pts' : '—';
+
+    // knockout columns (stage 1..6)
+    const koCols = [1, 2, 3, 4, 5, 6].map((stage, i) => {
+      const tms = D.teams.filter(t => ((T[t.name] || {}).stage || 0) === stage).map(t => ({
+        flag: t.flag, name: t.name, ownerName: t.owner,
+        dotStyle: { width: '8px', height: '8px', borderRadius: '50%', flex: '0 0 8px', background: co[t.owner] }
+      }));
+      return {
+        label: this.KO_LABELS[i], count: tms.length, teams: tms, empty: tms.length === 0,
+        headStyle: { padding: '12px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#fff', background: this.KO_ACCENT[i] }
+      };
+    });
+
+    // groups
+    const groups = D.groups.map(g => ({
+      letter: g.letter,
+      headStyle: { display: 'flex', alignItems: 'center', gap: '12px', padding: '13px 16px', color: '#fff', background: g.color },
+      teams: g.teams.map(name => {
+        const t = D.byName[name];
+        const st = T[name] || { m: [null, null, null], stage: 0 };
+        const oc = co[t.owner];
+        return {
+          name, flag: t.flag, ownerName: t.owner, ownerInitials: D.initialsOf[t.owner],
+          chipStyle: { display: 'inline-flex', alignItems: 'center', gap: '5px', marginTop: '3px', padding: '2px 9px 2px 4px', borderRadius: '999px', background: oc + '1A' },
+          dotStyle: { width: '16px', height: '16px', borderRadius: '50%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: '8.5px', fontWeight: '900', color: '#fff', background: oc },
+          ownerTextStyle: { fontSize: '11px', fontWeight: '700', color: oc },
+          stageLabel: this.SHORT[st.stage],
+          stageStyle: { width: '50px', textAlign: 'center', fontSize: '11px', fontWeight: '800', color: st.stage === 0 ? '#9AA3AC' : (st.stage === 6 ? '#D8940D' : '#016A97') },
+          cells: st.m.map((res, idx) => ({
+            txt: res || '·', style: this.cellStyle(res),
+            onClick: () => this.cycleMatch(name, idx)
+          })),
+          onPrev: () => this.setStage(name, -1),
+          onNext: () => this.setStage(name, 1)
+        };
+      })
+    }));
+
+    return { sample: S.sample, leaderName, leaderPtsLabel, leaderboard, koCols, groups, onReset: () => this.onReset(), onLive: () => this.onLive() };
+  }
+}
+</script>
+</body>
+</html>

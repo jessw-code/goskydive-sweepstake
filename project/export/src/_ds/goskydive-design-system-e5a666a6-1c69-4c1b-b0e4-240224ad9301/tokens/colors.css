@@ -1,0 +1,84 @@
+/* ===========================================================================
+   GoSkydive · Colour tokens
+   Source: Brand Kit (Brand Guidelines.pdf, p.7–8)
+   "aviation roots, altitude-inspired energy, emotional transformation,
+    and premium experience design."
+   =========================================================================== */
+
+:root {
+  /* --- Primary palette (core brand identity) ------------------------------ */
+  --sky-blue:        #009CDE;  /* brand-defining; hero bg; primary CTAs       */
+  --brilliant-white: #FFFFFF;  /* clean space, clarity, key background        */
+
+  /* --- Secondary palette (structural & supportive) ------------------------ */
+  --adventure-black: #0D0D0D;  /* headlines, body on light, premium moments   */
+  --aviation-grey:   #3E3E3E;  /* subheads, dividers, icons, form labels      */
+
+  /* --- Accent palette (navigation & meaning) ------------------------------ */
+  /* Signal colours ONLY. Pair only with adventure-black or white.            */
+  --nav-green:  #01AF86;       /* success, confirmations, "buy/progress" CTA  */
+  --nav-orange: #D8940D;       /* warnings, notices, energy moments. NEVER large fills */
+
+  /* --- Extended blue tonal system (altitude / cinematic depth) ------------ */
+  /* Ordered light -> deep. Altitude gradients run lighter at top, darker at  */
+  /* the bottom. Build gradients only WITHIN this family to avoid teal/marine.*/
+  --blue-100: #4EC6F0;         /* high altitude / lens-flare highlight        */
+  --blue-200: #009CDE;         /* = sky-blue, the anchor tone                 */
+  --blue-300: #028CC5;
+  --blue-400: #016A97;
+  --blue-500: #003B56;         /* ground / deep ocean, cinematic floor        */
+
+  /* --- Neutral ramp (derived from adventure-black + aviation-grey) -------- */
+  --neutral-0:   #FFFFFF;
+  --neutral-50:  #F5F8FA;      /* faint sky-tinted page wash                  */
+  --neutral-100: #ECEFF2;
+  --neutral-200: #DCE1E6;      /* hairline borders, dividers                  */
+  --neutral-300: #C2C9D0;
+  --neutral-400: #9AA3AC;      /* placeholder / disabled text                 */
+  --neutral-500: #6B747C;      /* muted body                                  */
+  --neutral-600: #4A525A;
+  --neutral-700: #3E3E3E;      /* = aviation-grey                             */
+  --neutral-800: #1E2024;
+  --neutral-900: #0D0D0D;      /* = adventure-black                           */
+
+  /* --- Tonal washes (for tints, hovers, focus rings) ---------------------- */
+  --sky-blue-12:  rgba(0, 156, 222, 0.12);
+  --sky-blue-08:  rgba(0, 156, 222, 0.08);
+  --green-12:     rgba(1, 175, 134, 0.12);
+  --orange-12:    rgba(216, 148, 13, 0.12);
+  --black-overlay: rgba(13, 13, 13, 0.55); /* dark scrim under white-on-photo */
+
+  /* ========================================================================
+     Semantic aliases — reference these in components, not the raw tokens.
+     ======================================================================== */
+
+  /* Surfaces */
+  --surface-page:      var(--neutral-50);
+  --surface-card:      var(--brilliant-white);
+  --surface-raised:    var(--brilliant-white);
+  --surface-inverse:   var(--adventure-black);
+  --surface-brand:     var(--sky-blue);
+  --surface-muted:     var(--neutral-100);
+
+  /* Text */
+  --text-strong:   var(--adventure-black);
+  --text-body:     var(--aviation-grey);
+  --text-muted:    var(--neutral-500);
+  --text-on-brand: var(--brilliant-white);
+  --text-on-dark:  var(--brilliant-white);
+  --text-inverse:  var(--brilliant-white);
+  --text-link:     var(--blue-300);
+
+  /* Borders & lines */
+  --border-subtle:  var(--neutral-200);
+  --border-default: var(--neutral-300);
+  --border-strong:  var(--aviation-grey);
+  --border-brand:   var(--sky-blue);
+
+  /* Interactive / intent */
+  --intent-primary:  var(--sky-blue);
+  --intent-action:   var(--nav-green);   /* the "buy / progress" CTA          */
+  --intent-success:  var(--nav-green);
+  --intent-warning:  var(--nav-orange);
+  --focus-ring:      var(--sky-blue);
+}

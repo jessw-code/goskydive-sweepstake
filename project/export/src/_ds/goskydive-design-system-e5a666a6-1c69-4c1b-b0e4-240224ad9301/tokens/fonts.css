@@ -1,0 +1,23 @@
+/* ===========================================================================
+   GoSkydive · Webfonts
+   ---------------------------------------------------------------------------
+   Figtree is the supplied brand typeface (variable, 300–900). It is used for
+   BOTH display/headers and body — it is bold, rounded and adventurous, which
+   matches the brand font brief exactly.
+
+   SUBSTITUTION NOTE: the Brand Guidelines name two additional faces —
+   a custom "GoSkydive" header lettering (this is essentially the logo
+   wordmark, not a distributable text font) and "Neue Frutiger World" for
+   subheads/paragraphs (a licensed commercial font we were not given).
+   Both are substituted by Figtree here. Supply the licensed files and we
+   will wire them in.
+   =========================================================================== */
+
+@font-face {
+  font-family: "Figtree";
+  src: url("../assets/fonts/Figtree-Variable.ttf") format("truetype-variations"),
+       url("../assets/fonts/Figtree-Variable.ttf") format("truetype");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
