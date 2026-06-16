@@ -52,7 +52,7 @@ button{font-family:inherit}
     <span style="flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;background:#009CDE;color:#fff;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:4px 11px;border-radius:999px">
       <span style="width:7px;height:7px;border-radius:50%;background:#fff;animation:gskPulse 1.8s ease-in-out infinite;display:block"></span>Live
     </span>
-    <span>Results current through <b>Sun 14 June</b> (Groups A–F Matchday 1 complete). Groups G–H kick off today; I–L from 16 June. Tap any W/D/L cell to log new results, and use the ◀ ▶ arrows to send teams through the knockouts.</span>
+    <span>Results current through <b>Mon 15 June</b> (Groups A–H Matchday 1 complete — all 4 Group G/H games drew!). Groups I–L kick off today from 19:00 UTC. Tap any W/D/L cell to log new results, and use the ◀ ▶ arrows to send teams through the knockouts.</span>
   </div>
 
   <!-- LEADERBOARD -->
@@ -178,7 +178,14 @@ function liveState() {
     'Germany':'W','Curaçao':'L',"Côte d'Ivoire":'W','Ecuador':'L',
     'Netherlands':'D','Japan':'D','Sweden':'W','Tunisia':'L'
   };
-  [md1, md1ef].forEach(map => {
+  // Matchday 1: Groups G–H (Jun 15) — all four matches drew
+  const md1gh = {
+    'Belgium':'D','Egypt':'D',
+    'Iran':'D','New Zealand':'D',
+    'Spain':'D','Cape Verde':'D',
+    'Saudi Arabia':'D','Uruguay':'D'
+  };
+  [md1, md1ef, md1gh].forEach(map => {
     Object.keys(map).forEach(n => { if (o[n]) o[n].m = [map[n], null, null]; });
   });
   return o;
