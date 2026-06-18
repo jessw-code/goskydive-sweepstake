@@ -52,7 +52,7 @@ button{font-family:inherit}
     <span style="flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;background:#009CDE;color:#fff;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:4px 11px;border-radius:999px">
       <span style="width:7px;height:7px;border-radius:50%;background:#fff;animation:gskPulse 1.8s ease-in-out infinite;display:block"></span>Live
     </span>
-    <span>Results current through <b>Tue 16 June</b> (Groups A–J Matchday 1 complete). Groups K–L kick off today. Tap any W/D/L cell to log new results, and use the ◀ ▶ arrows to send teams through the knockouts.</span>
+    <span>Results current through <b>Wed 17 June</b> (Groups A–J complete; K–L in progress — Uzbekistan/Colombia &amp; Ghana/Panama still to play). Tap any W/D/L cell to log new results, and use the ◀ ▶ arrows to send teams through the knockouts.</span>
   </div>
 
   <!-- LEADERBOARD -->
@@ -192,7 +192,12 @@ function liveState() {
     'Argentina':'W','Algeria':'L',
     'Austria':'W','Jordan':'L'
   };
-  [md1, md1ef, md1gh, md1ij].forEach(map => {
+  // Matchday 1: Groups K–L partial (Jun 17)
+  const md1kl = {
+    'Portugal':'D','Congo DR':'D',
+    'England':'W','Croatia':'L'
+  };
+  [md1, md1ef, md1gh, md1ij, md1kl].forEach(map => {
     Object.keys(map).forEach(n => { if (o[n]) o[n].m = [map[n], null, null]; });
   });
   return o;
