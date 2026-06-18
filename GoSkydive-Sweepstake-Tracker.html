@@ -52,7 +52,7 @@ button{font-family:inherit}
     <span style="flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;background:#009CDE;color:#fff;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:4px 11px;border-radius:999px">
       <span style="width:7px;height:7px;border-radius:50%;background:#fff;animation:gskPulse 1.8s ease-in-out infinite;display:block"></span>Live
     </span>
-    <span>Results current through <b>Wed 17 June</b> (Groups A–J complete; K–L in progress — Uzbekistan/Colombia &amp; Ghana/Panama still to play). Tap any W/D/L cell to log new results, and use the ◀ ▶ arrows to send teams through the knockouts.</span>
+    <span>Results current through <b>Wed 17 June</b> (All Matchday 1 complete; Group A Matchday 2 underway — Czechia 1–1 South Africa). Tap any W/D/L cell to log new results, and use the ◀ ▶ arrows to send teams through the knockouts.</span>
   </div>
 
   <!-- LEADERBOARD -->
@@ -166,40 +166,70 @@ function blankState() {
 
 function liveState() {
   const o = blankState();
-  // Matchday 1: Groups A–D (Jun 11–13)
-  const md1 = {
-    'Mexico':'W','South Africa':'L','Korea Republic':'W','Czechia':'L',
-    'Canada':'D','Bosnia & Herzegovina':'D','Switzerland':'D','Qatar':'D',
-    'Brazil':'D','Morocco':'D','Scotland':'W','Haiti':'L',
-    'USA':'W','Paraguay':'L','Australia':'W','Türkiye':'L'
+  // Full results table — [MD1, MD2, MD3], null = not yet played
+  const R = {
+    // Group A
+    'Mexico':                 ['W', null, null],
+    'South Africa':           ['L', 'D',  null],  // MD2: drew Czechia
+    'Korea Republic':         ['W', null, null],
+    'Czechia':                ['L', 'D',  null],  // MD2: drew South Africa
+    // Group B
+    'Canada':                 ['D', null, null],
+    'Bosnia & Herzegovina':   ['D', null, null],
+    'Switzerland':            ['D', null, null],
+    'Qatar':                  ['D', null, null],
+    // Group C
+    'Brazil':                 ['D', null, null],
+    'Morocco':                ['D', null, null],
+    'Scotland':               ['W', null, null],
+    'Haiti':                  ['L', null, null],
+    // Group D
+    'USA':                    ['W', null, null],
+    'Paraguay':               ['L', null, null],
+    'Australia':              ['W', null, null],
+    'Türkiye':                ['L', null, null],
+    // Group E
+    'Germany':                ['W', null, null],
+    'Curaçao':                ['L', null, null],
+    "Côte d'Ivoire":          ['W', null, null],
+    'Ecuador':                ['L', null, null],
+    // Group F
+    'Netherlands':            ['D', null, null],
+    'Japan':                  ['D', null, null],
+    'Sweden':                 ['W', null, null],
+    'Tunisia':                ['L', null, null],
+    // Group G
+    'Belgium':                ['D', null, null],
+    'Egypt':                  ['D', null, null],
+    'Iran':                   ['D', null, null],
+    'New Zealand':            ['D', null, null],
+    // Group H
+    'Spain':                  ['D', null, null],
+    'Cape Verde':             ['D', null, null],
+    'Saudi Arabia':           ['D', null, null],
+    'Uruguay':                ['D', null, null],
+    // Group I
+    'France':                 ['W', null, null],
+    'Senegal':                ['L', null, null],
+    'Norway':                 ['W', null, null],
+    'Iraq':                   ['L', null, null],
+    // Group J
+    'Argentina':              ['W', null, null],
+    'Algeria':                ['L', null, null],
+    'Austria':                ['W', null, null],
+    'Jordan':                 ['L', null, null],
+    // Group K
+    'Portugal':               ['D', null, null],
+    'Congo DR':               ['D', null, null],
+    'Uzbekistan':             ['L', null, null],
+    'Colombia':               ['W', null, null],
+    // Group L
+    'England':                ['W', null, null],
+    'Croatia':                ['L', null, null],
+    'Ghana':                  ['W', null, null],
+    'Panama':                 ['L', null, null],
   };
-  // Matchday 1: Groups E–F (Jun 14)
-  const md1ef = {
-    'Germany':'W','Curaçao':'L',"Côte d'Ivoire":'W','Ecuador':'L',
-    'Netherlands':'D','Japan':'D','Sweden':'W','Tunisia':'L'
-  };
-  // Matchday 1: Groups G–H (Jun 15) — all four matches drew
-  const md1gh = {
-    'Belgium':'D','Egypt':'D',
-    'Iran':'D','New Zealand':'D',
-    'Spain':'D','Cape Verde':'D',
-    'Saudi Arabia':'D','Uruguay':'D'
-  };
-  // Matchday 1: Groups I–J (Jun 16)
-  const md1ij = {
-    'France':'W','Senegal':'L',
-    'Norway':'W','Iraq':'L',
-    'Argentina':'W','Algeria':'L',
-    'Austria':'W','Jordan':'L'
-  };
-  // Matchday 1: Groups K–L partial (Jun 17)
-  const md1kl = {
-    'Portugal':'D','Congo DR':'D',
-    'England':'W','Croatia':'L'
-  };
-  [md1, md1ef, md1gh, md1ij, md1kl].forEach(map => {
-    Object.keys(map).forEach(n => { if (o[n]) o[n].m = [map[n], null, null]; });
-  });
+  Object.keys(R).forEach(n => { if (o[n]) o[n].m = R[n]; });
   return o;
 }
 
