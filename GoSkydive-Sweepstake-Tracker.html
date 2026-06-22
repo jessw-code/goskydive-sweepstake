@@ -52,7 +52,7 @@ button{font-family:inherit}
     <span style="flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;background:#009CDE;color:#fff;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:4px 11px;border-radius:999px">
       <span style="width:7px;height:7px;border-radius:50%;background:#fff;animation:gskPulse 1.8s ease-in-out infinite;display:block"></span>Live
     </span>
-    <span>Results current through <b>Wed 17 June</b> (All Matchday 1 complete; Group A Matchday 2 underway — Czechia 1–1 South Africa). Tap any W/D/L cell to log new results, and use the ◀ ▶ arrows to send teams through the knockouts.</span>
+    <span>Results current through <b>Mon 22 June</b> — Groups A–H Matchday 2 complete. Groups I–J MD2 today, K–L MD2 tomorrow. Tap W/D/L to log new results, ◀ ▶ to advance teams through the knockouts.</span>
   </div>
 
   <!-- LEADERBOARD -->
@@ -169,61 +169,61 @@ function liveState() {
   // Full results table — [MD1, MD2, MD3], null = not yet played
   const R = {
     // Group A
-    'Mexico':                 ['W', null, null],
-    'South Africa':           ['L', 'D',  null],  // MD2: drew Czechia
-    'Korea Republic':         ['W', null, null],
-    'Czechia':                ['L', 'D',  null],  // MD2: drew South Africa
+    'Mexico':                 ['W', 'W',  null],  // MD2: 1-0 Korea Republic
+    'South Africa':           ['L', 'D',  null],  // MD2: 1-1 Czechia
+    'Korea Republic':         ['W', 'L',  null],  // MD2: 0-1 Mexico
+    'Czechia':                ['L', 'D',  null],  // MD2: 1-1 South Africa
     // Group B
-    'Canada':                 ['D', null, null],
-    'Bosnia & Herzegovina':   ['D', null, null],
-    'Switzerland':            ['D', null, null],
-    'Qatar':                  ['D', null, null],
+    'Canada':                 ['D', 'W',  null],  // MD2: 6-0 Qatar
+    'Bosnia & Herzegovina':   ['D', 'L',  null],  // MD2: 1-4 Switzerland
+    'Switzerland':            ['D', 'W',  null],  // MD2: 4-1 Bosnia
+    'Qatar':                  ['D', 'L',  null],  // MD2: 0-6 Canada
     // Group C
-    'Brazil':                 ['D', null, null],
-    'Morocco':                ['D', null, null],
-    'Scotland':               ['W', null, null],
-    'Haiti':                  ['L', null, null],
+    'Brazil':                 ['D', 'W',  null],  // MD2: 3-0 Haiti
+    'Morocco':                ['D', 'W',  null],  // MD2: 1-0 Scotland
+    'Scotland':               ['W', 'L',  null],  // MD2: 0-1 Morocco
+    'Haiti':                  ['L', 'L',  null],  // MD2: 0-3 Brazil
     // Group D
-    'USA':                    ['W', null, null],
-    'Paraguay':               ['L', null, null],
-    'Australia':              ['W', null, null],
-    'Türkiye':                ['L', null, null],
+    'USA':                    ['W', 'W',  null],  // MD2: 2-0 Australia
+    'Paraguay':               ['L', 'W',  null],  // MD2: 1-0 Türkiye
+    'Australia':              ['W', 'L',  null],  // MD2: 0-2 USA
+    'Türkiye':                ['L', 'L',  null],  // MD2: 0-1 Paraguay
     // Group E
-    'Germany':                ['W', null, null],
-    'Curaçao':                ['L', null, null],
-    "Côte d'Ivoire":          ['W', null, null],
-    'Ecuador':                ['L', null, null],
+    'Germany':                ['W', 'W',  null],  // MD2: 2-1 Côte d'Ivoire
+    'Curaçao':                ['L', 'D',  null],  // MD2: 0-0 Ecuador
+    "Côte d'Ivoire":          ['W', 'L',  null],  // MD2: 1-2 Germany
+    'Ecuador':                ['L', 'D',  null],  // MD2: 0-0 Curaçao
     // Group F
-    'Netherlands':            ['D', null, null],
-    'Japan':                  ['D', null, null],
-    'Sweden':                 ['W', null, null],
-    'Tunisia':                ['L', null, null],
+    'Netherlands':            ['D', 'W',  null],  // MD2: 5-1 Sweden
+    'Japan':                  ['D', 'W',  null],  // MD2: 4-0 Tunisia
+    'Sweden':                 ['W', 'L',  null],  // MD2: 1-5 Netherlands
+    'Tunisia':                ['L', 'L',  null],  // MD2: 0-4 Japan
     // Group G
-    'Belgium':                ['D', null, null],
-    'Egypt':                  ['D', null, null],
-    'Iran':                   ['D', null, null],
-    'New Zealand':            ['D', null, null],
+    'Belgium':                ['D', 'D',  null],  // MD2: 0-0 Iran
+    'Egypt':                  ['D', 'W',  null],  // MD2: 3-1 New Zealand
+    'Iran':                   ['D', 'D',  null],  // MD2: 0-0 Belgium
+    'New Zealand':            ['D', 'L',  null],  // MD2: 1-3 Egypt
     // Group H
-    'Spain':                  ['D', null, null],
-    'Cape Verde':             ['D', null, null],
-    'Saudi Arabia':           ['D', null, null],
-    'Uruguay':                ['D', null, null],
-    // Group I
+    'Spain':                  ['D', 'W',  null],  // MD2: 4-0 Saudi Arabia
+    'Cape Verde':             ['D', 'D',  null],  // MD2: 2-2 Uruguay
+    'Saudi Arabia':           ['D', 'L',  null],  // MD2: 0-4 Spain
+    'Uruguay':                ['D', 'D',  null],  // MD2: 2-2 Cape Verde
+    // Group I — MD2 not yet played (Jun 22)
     'France':                 ['W', null, null],
     'Senegal':                ['L', null, null],
     'Norway':                 ['W', null, null],
     'Iraq':                   ['L', null, null],
-    // Group J
+    // Group J — MD2 not yet played (Jun 22)
     'Argentina':              ['W', null, null],
     'Algeria':                ['L', null, null],
     'Austria':                ['W', null, null],
     'Jordan':                 ['L', null, null],
-    // Group K
+    // Group K — MD2 not yet played (Jun 23)
     'Portugal':               ['D', null, null],
     'Congo DR':               ['D', null, null],
     'Uzbekistan':             ['L', null, null],
     'Colombia':               ['W', null, null],
-    // Group L
+    // Group L — MD2 not yet played (Jun 23)
     'England':                ['W', null, null],
     'Croatia':                ['L', null, null],
     'Ghana':                  ['W', null, null],
