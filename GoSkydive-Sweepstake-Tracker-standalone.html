@@ -52,7 +52,7 @@ button{font-family:inherit}
     <span style="flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;background:#009CDE;color:#fff;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:4px 11px;border-radius:999px">
       <span style="width:7px;height:7px;border-radius:50%;background:#fff;animation:gskPulse 1.8s ease-in-out infinite;display:block"></span>Live
     </span>
-    <span>Results current through <b>Mon 22 June</b> — Groups A–H Matchday 2 complete. Groups I–J MD2 today, K–L MD2 tomorrow. Tap W/D/L to log new results, ◀ ▶ to advance teams through the knockouts.</span>
+    <span>Results current through <b>Tue 23 June</b> — all Matchday 2 complete. Matchday 3 begins today (Groups A, B, C). Tap W/D/L to log new results, ◀ ▶ to advance teams through the knockouts.</span>
   </div>
 
   <!-- LEADERBOARD -->
@@ -208,26 +208,26 @@ function liveState() {
     'Cape Verde':             ['D', 'D',  null],  // MD2: 2-2 Uruguay
     'Saudi Arabia':           ['D', 'L',  null],  // MD2: 0-4 Spain
     'Uruguay':                ['D', 'D',  null],  // MD2: 2-2 Cape Verde
-    // Group I — MD2 not yet played (Jun 22)
-    'France':                 ['W', null, null],
-    'Senegal':                ['L', null, null],
-    'Norway':                 ['W', null, null],
-    'Iraq':                   ['L', null, null],
-    // Group J — MD2 not yet played (Jun 22)
-    'Argentina':              ['W', null, null],
-    'Algeria':                ['L', null, null],
-    'Austria':                ['W', null, null],
-    'Jordan':                 ['L', null, null],
-    // Group K — MD2 not yet played (Jun 23)
-    'Portugal':               ['D', null, null],
-    'Congo DR':               ['D', null, null],
-    'Uzbekistan':             ['L', null, null],
-    'Colombia':               ['W', null, null],
-    // Group L — MD2 not yet played (Jun 23)
-    'England':                ['W', null, null],
-    'Croatia':                ['L', null, null],
-    'Ghana':                  ['W', null, null],
-    'Panama':                 ['L', null, null],
+    // Group I — MD2 (Jun 22)
+    'France':                 ['W', 'W',  null],  // MD2: 3-0 Iraq
+    'Senegal':                ['L', 'L',  null],  // MD2: 2-3 Norway
+    'Norway':                 ['W', 'W',  null],  // MD2: 3-2 Senegal
+    'Iraq':                   ['L', 'L',  null],  // MD2: 0-3 France
+    // Group J — MD2 (Jun 22)
+    'Argentina':              ['W', 'W',  null],  // MD2: 2-0 Austria
+    'Algeria':                ['L', 'W',  null],  // MD2: 2-1 Jordan
+    'Austria':                ['W', 'L',  null],  // MD2: 0-2 Argentina
+    'Jordan':                 ['L', 'L',  null],  // MD2: 1-2 Algeria
+    // Group K — MD2 (Jun 23)
+    'Portugal':               ['D', 'W',  null],  // MD2: 5-0 Uzbekistan
+    'Congo DR':               ['D', 'L',  null],  // MD2: 0-1 Colombia
+    'Uzbekistan':             ['L', 'L',  null],  // MD2: 0-5 Portugal
+    'Colombia':               ['W', 'W',  null],  // MD2: 1-0 Congo DR
+    // Group L — MD2 (Jun 23)
+    'England':                ['W', 'D',  null],  // MD2: 0-0 Ghana
+    'Croatia':                ['L', 'W',  null],  // MD2: 3-0 Panama
+    'Ghana':                  ['W', 'D',  null],  // MD2: 0-0 England
+    'Panama':                 ['L', 'L',  null],  // MD2: 0-3 Croatia
   };
   Object.keys(R).forEach(n => { if (o[n]) o[n].m = R[n]; });
   return o;
