@@ -52,7 +52,7 @@ button{font-family:inherit}
     <span style="flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;background:#009CDE;color:#fff;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:4px 11px;border-radius:999px">
       <span style="width:7px;height:7px;border-radius:50%;background:#fff;animation:gskPulse 1.8s ease-in-out infinite;display:block"></span>Live
     </span>
-    <span>Results current through <b>Tue 23 June</b> — all Matchday 2 complete. Matchday 3 begins today (Groups A, B, C). Tap W/D/L to log new results, ◀ ▶ to advance teams through the knockouts.</span>
+    <span>Results current through <b>Wed 24 June</b> — Groups A, B, C Matchday 3 complete. Groups D, E, F play today (Jun 25); G–L to follow. Tap W/D/L to log new results, ◀ ▶ to advance teams through the knockouts.</span>
   </div>
 
   <!-- LEADERBOARD -->
@@ -169,20 +169,20 @@ function liveState() {
   // Full results table — [MD1, MD2, MD3], null = not yet played
   const R = {
     // Group A
-    'Mexico':                 ['W', 'W',  null],  // MD2: 1-0 Korea Republic
-    'South Africa':           ['L', 'D',  null],  // MD2: 1-1 Czechia
-    'Korea Republic':         ['W', 'L',  null],  // MD2: 0-1 Mexico
-    'Czechia':                ['L', 'D',  null],  // MD2: 1-1 South Africa
+    'Mexico':                 ['W', 'W',  'W'],   // MD3: 3-0 Czechia
+    'South Africa':           ['L', 'D',  'W'],   // MD3: 1-0 Korea Republic
+    'Korea Republic':         ['W', 'L',  'L'],   // MD3: 0-1 South Africa
+    'Czechia':                ['L', 'D',  'L'],   // MD3: 0-3 Mexico
     // Group B
-    'Canada':                 ['D', 'W',  null],  // MD2: 6-0 Qatar
-    'Bosnia & Herzegovina':   ['D', 'L',  null],  // MD2: 1-4 Switzerland
-    'Switzerland':            ['D', 'W',  null],  // MD2: 4-1 Bosnia
-    'Qatar':                  ['D', 'L',  null],  // MD2: 0-6 Canada
+    'Canada':                 ['D', 'W',  'L'],   // MD3: 1-2 Switzerland
+    'Bosnia & Herzegovina':   ['D', 'L',  'W'],   // MD3: 3-1 Qatar
+    'Switzerland':            ['D', 'W',  'W'],   // MD3: 2-1 Canada
+    'Qatar':                  ['D', 'L',  'L'],   // MD3: 1-3 Bosnia
     // Group C
-    'Brazil':                 ['D', 'W',  null],  // MD2: 3-0 Haiti
-    'Morocco':                ['D', 'W',  null],  // MD2: 1-0 Scotland
-    'Scotland':               ['W', 'L',  null],  // MD2: 0-1 Morocco
-    'Haiti':                  ['L', 'L',  null],  // MD2: 0-3 Brazil
+    'Brazil':                 ['D', 'W',  'W'],   // MD3: 3-0 Scotland
+    'Morocco':                ['D', 'W',  'W'],   // MD3: 4-2 Haiti
+    'Scotland':               ['W', 'L',  'L'],   // MD3: 0-3 Brazil
+    'Haiti':                  ['L', 'L',  'L'],   // MD3: 2-4 Morocco
     // Group D
     'USA':                    ['W', 'W',  null],  // MD2: 2-0 Australia
     'Paraguay':               ['L', 'W',  null],  // MD2: 1-0 Türkiye
