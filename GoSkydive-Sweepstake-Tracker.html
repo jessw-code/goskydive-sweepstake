@@ -52,7 +52,7 @@ button{font-family:inherit}
     <span style="flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;background:#009CDE;color:#fff;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:4px 11px;border-radius:999px">
       <span style="width:7px;height:7px;border-radius:50%;background:#fff;animation:gskPulse 1.8s ease-in-out infinite;display:block"></span>Live
     </span>
-    <span>Results current through <b>Wed 24 June</b> — Groups A, B, C Matchday 3 complete. Groups D, E, F play today (Jun 25); G–L to follow. Tap W/D/L to log new results, ◀ ▶ to advance teams through the knockouts.</span>
+    <span>All group stage complete — <b>Round of 32 begins 28 June</b>. Use ◀ ▶ to advance teams through the knockouts as matches are played.</span>
   </div>
 
   <!-- LEADERBOARD -->
@@ -184,50 +184,50 @@ function liveState() {
     'Scotland':               ['W', 'L',  'L'],   // MD3: 0-3 Brazil
     'Haiti':                  ['L', 'L',  'L'],   // MD3: 2-4 Morocco
     // Group D
-    'USA':                    ['W', 'W',  null],  // MD2: 2-0 Australia
-    'Paraguay':               ['L', 'W',  null],  // MD2: 1-0 Türkiye
-    'Australia':              ['W', 'L',  null],  // MD2: 0-2 USA
-    'Türkiye':                ['L', 'L',  null],  // MD2: 0-1 Paraguay
+    'USA':                    ['W', 'W',  'L'],   // MD3: 2-3 Türkiye
+    'Paraguay':               ['L', 'W',  'D'],   // MD3: 0-0 Australia
+    'Australia':              ['W', 'L',  'D'],   // MD3: 0-0 Paraguay
+    'Türkiye':                ['L', 'L',  'W'],   // MD3: 3-2 USA
     // Group E
-    'Germany':                ['W', 'W',  null],  // MD2: 2-1 Côte d'Ivoire
-    'Curaçao':                ['L', 'D',  null],  // MD2: 0-0 Ecuador
-    "Côte d'Ivoire":          ['W', 'L',  null],  // MD2: 1-2 Germany
-    'Ecuador':                ['L', 'D',  null],  // MD2: 0-0 Curaçao
+    'Germany':                ['W', 'W',  'L'],   // MD3: 1-2 Ecuador
+    'Curaçao':                ['L', 'D',  'L'],   // MD3: 0-2 Côte d'Ivoire
+    "Côte d'Ivoire":          ['W', 'L',  'W'],   // MD3: 2-0 Curaçao
+    'Ecuador':                ['L', 'D',  'W'],   // MD3: 2-1 Germany
     // Group F
-    'Netherlands':            ['D', 'W',  null],  // MD2: 5-1 Sweden
-    'Japan':                  ['D', 'W',  null],  // MD2: 4-0 Tunisia
-    'Sweden':                 ['W', 'L',  null],  // MD2: 1-5 Netherlands
-    'Tunisia':                ['L', 'L',  null],  // MD2: 0-4 Japan
+    'Netherlands':            ['D', 'W',  'W'],   // MD3: 3-1 Tunisia
+    'Japan':                  ['D', 'W',  'D'],   // MD3: 1-1 Sweden
+    'Sweden':                 ['W', 'L',  'D'],   // MD3: 1-1 Japan
+    'Tunisia':                ['L', 'L',  'L'],   // MD3: 1-3 Netherlands
     // Group G
-    'Belgium':                ['D', 'D',  null],  // MD2: 0-0 Iran
-    'Egypt':                  ['D', 'W',  null],  // MD2: 3-1 New Zealand
-    'Iran':                   ['D', 'D',  null],  // MD2: 0-0 Belgium
-    'New Zealand':            ['D', 'L',  null],  // MD2: 1-3 Egypt
+    'Belgium':                ['D', 'D',  'W'],   // MD3: 5-1 New Zealand
+    'Egypt':                  ['D', 'W',  'D'],   // MD3: 1-1 Iran
+    'Iran':                   ['D', 'D',  'D'],   // MD3: 1-1 Egypt
+    'New Zealand':            ['D', 'L',  'L'],   // MD3: 1-5 Belgium
     // Group H
-    'Spain':                  ['D', 'W',  null],  // MD2: 4-0 Saudi Arabia
-    'Cape Verde':             ['D', 'D',  null],  // MD2: 2-2 Uruguay
-    'Saudi Arabia':           ['D', 'L',  null],  // MD2: 0-4 Spain
-    'Uruguay':                ['D', 'D',  null],  // MD2: 2-2 Cape Verde
-    // Group I — MD2 (Jun 22)
-    'France':                 ['W', 'W',  null],  // MD2: 3-0 Iraq
-    'Senegal':                ['L', 'L',  null],  // MD2: 2-3 Norway
-    'Norway':                 ['W', 'W',  null],  // MD2: 3-2 Senegal
-    'Iraq':                   ['L', 'L',  null],  // MD2: 0-3 France
-    // Group J — MD2 (Jun 22)
-    'Argentina':              ['W', 'W',  null],  // MD2: 2-0 Austria
-    'Algeria':                ['L', 'W',  null],  // MD2: 2-1 Jordan
-    'Austria':                ['W', 'L',  null],  // MD2: 0-2 Argentina
-    'Jordan':                 ['L', 'L',  null],  // MD2: 1-2 Algeria
-    // Group K — MD2 (Jun 23)
-    'Portugal':               ['D', 'W',  null],  // MD2: 5-0 Uzbekistan
-    'Congo DR':               ['D', 'L',  null],  // MD2: 0-1 Colombia
-    'Uzbekistan':             ['L', 'L',  null],  // MD2: 0-5 Portugal
-    'Colombia':               ['W', 'W',  null],  // MD2: 1-0 Congo DR
-    // Group L — MD2 (Jun 23)
-    'England':                ['W', 'D',  null],  // MD2: 0-0 Ghana
-    'Croatia':                ['L', 'W',  null],  // MD2: 3-0 Panama
-    'Ghana':                  ['W', 'D',  null],  // MD2: 0-0 England
-    'Panama':                 ['L', 'L',  null],  // MD2: 0-3 Croatia
+    'Spain':                  ['D', 'W',  'W'],   // MD3: 1-0 Uruguay
+    'Cape Verde':             ['D', 'D',  'D'],   // MD3: 0-0 Saudi Arabia
+    'Saudi Arabia':           ['D', 'L',  'D'],   // MD3: 0-0 Cape Verde
+    'Uruguay':                ['D', 'D',  'L'],   // MD3: 0-1 Spain
+    // Group I
+    'France':                 ['W', 'W',  'W'],   // MD3: 4-1 Norway
+    'Senegal':                ['L', 'L',  'W'],   // MD3: 5-0 Iraq
+    'Norway':                 ['W', 'W',  'L'],   // MD3: 1-4 France
+    'Iraq':                   ['L', 'L',  'L'],   // MD3: 0-5 Senegal
+    // Group J
+    'Argentina':              ['W', 'W',  'W'],   // MD3: 3-1 Jordan
+    'Algeria':                ['L', 'W',  'D'],   // MD3: 3-3 Austria
+    'Austria':                ['W', 'L',  'D'],   // MD3: 3-3 Algeria
+    'Jordan':                 ['L', 'L',  'L'],   // MD3: 1-3 Argentina
+    // Group K
+    'Portugal':               ['D', 'W',  'D'],   // MD3: 0-0 Colombia
+    'Congo DR':               ['D', 'L',  'W'],   // MD3: 3-1 Uzbekistan
+    'Uzbekistan':             ['L', 'L',  'L'],   // MD3: 1-3 Congo DR
+    'Colombia':               ['W', 'W',  'D'],   // MD3: 0-0 Portugal
+    // Group L
+    'England':                ['W', 'D',  'W'],   // MD3: 2-0 Panama
+    'Croatia':                ['L', 'W',  'W'],   // MD3: 2-1 Ghana
+    'Ghana':                  ['W', 'D',  'L'],   // MD3: 1-2 Croatia
+    'Panama':                 ['L', 'L',  'L'],   // MD3: 0-2 England
   };
   Object.keys(R).forEach(n => { if (o[n]) o[n].m = R[n]; });
   return o;
