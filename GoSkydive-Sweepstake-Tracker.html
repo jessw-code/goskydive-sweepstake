@@ -69,12 +69,15 @@ button{font-family:inherit}
     </div>
   </div>
 
-  <!-- KNOCKOUT TRACKER -->
-  <div style="margin-bottom:10px;display:flex;align-items:baseline;gap:12px">
-    <div style="font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#016A97">Knockout Tracker</div>
-    <div style="font-size:13px;color:#6B747C;font-weight:500">Teams still flying — advance with the arrows in each group</div>
+  <!-- KNOCKOUT BRACKET -->
+  <div style="margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#016A97">Knockout Bracket</div>
+      <div style="font-size:13px;color:#6B747C;font-weight:500">Click a team to set as winner · leaderboard updates live</div>
+    </div>
+    <button onclick="resetKO()" style="cursor:pointer;border:1px solid #DCE1E6;background:#fff;color:#6B747C;font-weight:700;font-size:12px;padding:7px 14px;border-radius:999px;font-family:inherit">Reset bracket</button>
   </div>
-  <div id="knockout" class="scroll-x" style="display:flex;gap:14px;overflow-x:auto;padding-bottom:12px;margin-bottom:30px"></div>
+  <div id="ko-bracket" style="margin-bottom:30px"></div>
 
   <!-- GROUPS -->
   <div style="margin-bottom:14px;display:flex;align-items:baseline;gap:12px">
@@ -110,6 +113,42 @@ const SHORT = ['Group','R32','R16','QF','SF','Final','Champ'];
 const KO_PTS = [0, 5, 12, 22, 36, 52, 80];
 const KO_LABELS = ['Round of 32','Round of 16','Quarter-finals','Semi-finals','Final','Champion'];
 const KO_ACCENT = ['#4EC6F0','#009CDE','#028CC5','#016A97','#003B56','#D8940D'];
+
+// Knockout bracket — all 31 matches. r=0 R32, r=1 R16, r=2 QF, r=3 SF, r=4 Final
+// nxt = id of match the winner feeds into; ns = 'a' (teamA slot) or 'b' (teamB slot)
+const KO_MATCHES = [
+  {id:'R32-01',r:0,date:'Sun 28 Jun',a:'South Africa',      b:'Canada',               nxt:'R16-1',ns:'a'},
+  {id:'R32-02',r:0,date:'Mon 29 Jun',a:'Netherlands',        b:'Morocco',              nxt:'R16-1',ns:'b'},
+  {id:'R32-03',r:0,date:'Mon 29 Jun',a:'Germany',            b:'Paraguay',             nxt:'R16-2',ns:'a'},
+  {id:'R32-04',r:0,date:'Tue 30 Jun',a:'France',             b:'Sweden',               nxt:'R16-2',ns:'b'},
+  {id:'R32-05',r:0,date:'Mon 29 Jun',a:'Brazil',             b:'Japan',                nxt:'R16-3',ns:'a'},
+  {id:'R32-06',r:0,date:'Tue 30 Jun',a:"Côte d'Ivoire",     b:'Norway',               nxt:'R16-3',ns:'b'},
+  {id:'R32-07',r:0,date:'Tue 30 Jun',a:'Mexico',             b:'Ecuador',              nxt:'R16-4',ns:'a'},
+  {id:'R32-08',r:0,date:'Wed 1 Jul', a:'England',            b:'Congo DR',             nxt:'R16-4',ns:'b'},
+  {id:'R32-09',r:0,date:'Wed 1 Jul', a:'USA',                b:'Bosnia & Herzegovina', nxt:'R16-5',ns:'a'},
+  {id:'R32-10',r:0,date:'Wed 1 Jul', a:'Belgium',            b:'Senegal',              nxt:'R16-5',ns:'b'},
+  {id:'R32-11',r:0,date:'Thu 2 Jul', a:'Spain',              b:'Austria',              nxt:'R16-6',ns:'a'},
+  {id:'R32-12',r:0,date:'Thu 2 Jul', a:'Portugal',           b:'Croatia',              nxt:'R16-6',ns:'b'},
+  {id:'R32-13',r:0,date:'Fri 3 Jul', a:'Argentina',          b:'Cape Verde',           nxt:'R16-7',ns:'a'},
+  {id:'R32-14',r:0,date:'Thu 2 Jul', a:'Switzerland',        b:'Algeria',              nxt:'R16-7',ns:'b'},
+  {id:'R32-15',r:0,date:'Fri 3 Jul', a:'Australia',          b:'Egypt',                nxt:'R16-8',ns:'a'},
+  {id:'R32-16',r:0,date:'Fri 3 Jul', a:'Colombia',           b:'Ghana',                nxt:'R16-8',ns:'b'},
+  {id:'R16-1', r:1,date:'Sat 4 Jul', a:null,b:null,nxt:'QF-1',ns:'a'},
+  {id:'R16-2', r:1,date:'Sat 4 Jul', a:null,b:null,nxt:'QF-1',ns:'b'},
+  {id:'R16-3', r:1,date:'Sun 5 Jul', a:null,b:null,nxt:'QF-2',ns:'a'},
+  {id:'R16-4', r:1,date:'Sun 5 Jul', a:null,b:null,nxt:'QF-2',ns:'b'},
+  {id:'R16-5', r:1,date:'Mon 6 Jul', a:null,b:null,nxt:'QF-3',ns:'a'},
+  {id:'R16-6', r:1,date:'Mon 6 Jul', a:null,b:null,nxt:'QF-3',ns:'b'},
+  {id:'R16-7', r:1,date:'Tue 7 Jul', a:null,b:null,nxt:'QF-4',ns:'a'},
+  {id:'R16-8', r:1,date:'Tue 7 Jul', a:null,b:null,nxt:'QF-4',ns:'b'},
+  {id:'QF-1',  r:2,date:'Fri 10 Jul',a:null,b:null,nxt:'SF-1',ns:'a'},
+  {id:'QF-2',  r:2,date:'Sat 11 Jul',a:null,b:null,nxt:'SF-1',ns:'b'},
+  {id:'QF-3',  r:2,date:'Sat 11 Jul',a:null,b:null,nxt:'SF-2',ns:'a'},
+  {id:'QF-4',  r:2,date:'Sun 12 Jul',a:null,b:null,nxt:'SF-2',ns:'b'},
+  {id:'SF-1',  r:3,date:'Wed 15 Jul',a:null,b:null,nxt:'FIN', ns:'a'},
+  {id:'SF-2',  r:3,date:'Thu 16 Jul',a:null,b:null,nxt:'FIN', ns:'b'},
+  {id:'FIN',   r:4,date:'Sun 19 Jul',a:null,b:null,nxt:null,  ns:null},
+];
 
 const STAFF = [
   ['Ryan B','#009CDE'],['Josh W','#01AF86'],['Jess W','#D8940D'],['Mollie C','#E0556B'],
@@ -155,6 +194,8 @@ const groups = groupLetters.map((letter, i) => ({
 
 // State: { [teamName]: { m: [null|'W'|'D'|'L', ...x3], stage: 0-6 } }
 let state = {};
+// KO bracket results: { [matchId]: { winner: teamName } }
+let koState = {};
 
 function gpOf(m) { return m.reduce((a, r) => a + (r === 'W' ? 3 : r === 'D' ? 1 : 0), 0); }
 
@@ -245,8 +286,54 @@ function saveState() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ teams: state })); } catch(e) {}
 }
 
-function clearAll() { state = blankState(); saveState(); render(); }
-function loadLive() { state = liveState(); saveState(); render(); }
+const KO_KEY = 'gsk-wc26-ko-v1';
+function liveKOState() { return { 'R32-01': { winner: 'Canada' } }; }
+function loadKO() {
+  try { const r = localStorage.getItem(KO_KEY); if (r) return JSON.parse(r); } catch(e) {}
+  return liveKOState();
+}
+function saveKO() { try { localStorage.setItem(KO_KEY, JSON.stringify(koState)); } catch(e) {} }
+
+// Resolve current teams in a match (R16+ are filled from prior winners)
+function koGetTeams(id) {
+  const m = KO_MATCHES.find(x => x.id === id);
+  if (!m) return [null, null];
+  if (m.r === 0) return [m.a, m.b];
+  const feeders = KO_MATCHES.filter(x => x.nxt === id);
+  const fa = feeders.find(x => x.ns === 'a');
+  const fb = feeders.find(x => x.ns === 'b');
+  return [fa ? (koState[fa.id]?.winner || null) : null, fb ? (koState[fb.id]?.winner || null) : null];
+}
+
+// Highest round reached by a team based on bracket results
+function koComputedStage(teamName) {
+  let best = 0;
+  for (const m of KO_MATCHES) {
+    const [ta, tb] = koGetTeams(m.id);
+    if (ta !== teamName && tb !== teamName) continue;
+    best = Math.max(best, m.r + 1);
+    if (koState[m.id]?.winner === teamName) best = Math.max(best, m.r + 2);
+  }
+  return Math.min(best, 6);
+}
+
+function effectiveStage(teamName) {
+  return Math.max((state[teamName] || {}).stage || 0, koComputedStage(teamName));
+}
+
+// side = 'a' or 'b'; toggles off if already set
+function setKOWinner(matchId, side) {
+  const [tA, tB] = koGetTeams(matchId);
+  const winner = side === 'a' ? tA : tB;
+  if (!winner) return;
+  if (koState[matchId]?.winner === winner) delete koState[matchId];
+  else koState[matchId] = { winner };
+  saveKO(); render();
+}
+function resetKO() { koState = {}; saveKO(); render(); }
+
+function clearAll() { state = blankState(); koState = {}; saveState(); saveKO(); render(); }
+function loadLive() { state = liveState(); koState = liveKOState(); saveState(); saveKO(); render(); }
 
 function cycleMatch(idx, matchIdx) {
   const name = teams[idx].name;
@@ -277,7 +364,7 @@ function render() {
   STAFF.forEach(([n]) => totals[n] = 0);
   teams.forEach(t => {
     const st = state[t.name] || { m: [null,null,null], stage: 0 };
-    totals[t.owner] += gpOf(st.m) + KO_PTS[st.stage];
+    totals[t.owner] += gpOf(st.m) + KO_PTS[effectiveStage(t.name)];
   });
   const maxPts = Math.max(1, ...Object.values(totals));
 
@@ -295,7 +382,7 @@ function render() {
     const rankShadow = rank <= 3 ? 'box-shadow:0 2px 6px rgba(0,0,0,.18);' : '';
     const myTeams = teams.filter(t => t.owner === name);
     const chips = myTeams.map(t => {
-      const stg = (state[t.name] || {}).stage || 0;
+      const stg = effectiveStage(t.name);
       return `<img src="${t.flag}" title="${t.name} · ${SHORT[stg]}" style="width:30px;height:21px;border-radius:4px;object-fit:cover;box-shadow:0 1px 3px rgba(0,0,0,.2);opacity:${stg===0?'0.78':'1'}">`;
     }).join('');
     const barW = (pts / maxPts * 100).toFixed(1);
@@ -317,29 +404,8 @@ function render() {
   document.getElementById('leader-name').textContent = lPts > 0 ? leader[0] : 'Pending';
   document.getElementById('leader-pts').textContent = lPts > 0 ? lPts + ' pts' : '—';
 
-  // --- Knockout tracker ---
-  const ko = document.getElementById('knockout');
-  ko.innerHTML = [1,2,3,4,5,6].map((stage, i) => {
-    const tms = teams.filter(t => ((state[t.name] || {}).stage || 0) === stage);
-    const inner = tms.length === 0
-      ? `<div style="padding:14px 10px;text-align:center;color:#C2C9D0;font-size:12.5px;font-weight:600">No teams yet</div>`
-      : tms.map(t => `
-        <div style="display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:10px">
-          <span style="width:8px;height:8px;border-radius:50%;flex:0 0 8px;background:${colorOf[t.owner]};display:block"></span>
-          <img src="${t.flag}" style="width:24px;height:17px;border-radius:3px;object-fit:cover;box-shadow:0 1px 2px rgba(0,0,0,.2)">
-          <div style="line-height:1.15;min-width:0">
-            <div style="font-weight:700;font-size:13px;color:var(--adventure-black);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${t.name}</div>
-            <div style="font-weight:600;font-size:10.5px;color:#9AA3AC">${t.owner}</div>
-          </div>
-        </div>`).join('');
-    return `<div style="flex:0 0 200px;background:#fff;border-radius:18px;box-shadow:0 6px 18px rgba(13,13,13,.07);overflow:hidden;align-self:flex-start">
-      <div style="padding:12px 14px;display:flex;align-items:center;justify-content:space-between;color:#fff;background:${KO_ACCENT[i]}">
-        <span style="font-weight:800;font-size:13px;letter-spacing:.02em">${KO_LABELS[i]}</span>
-        <span style="font-weight:900;font-size:13px;background:rgba(255,255,255,.25);border-radius:999px;min-width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;padding:0 6px">${tms.length}</span>
-      </div>
-      <div style="padding:8px">${inner}</div>
-    </div>`;
-  }).join('');
+  // --- Knockout bracket ---
+  renderKO();
 
   // --- Groups ---
   const grpsEl = document.getElementById('groups');
@@ -352,7 +418,8 @@ function render() {
       const cells = st.m.map((res, idx) =>
         `<button onclick="cycleMatch(${tIdx},${idx})" title="Cycle W/D/L" style="${cellStyle(res)}">${res || '·'}</button>`
       ).join('');
-      const stageColor = st.stage === 0 ? '#9AA3AC' : st.stage === 6 ? '#D8940D' : '#016A97';
+      const effStg = effectiveStage(name);
+      const stageColor = effStg === 0 ? '#9AA3AC' : effStg === 6 ? '#D8940D' : '#016A97';
       return `<div style="display:flex;align-items:center;gap:11px;padding:11px 14px;border-bottom:1px solid #F0F3F5">
         <img src="${t.flag}" style="width:34px;height:24px;border-radius:4px;object-fit:cover;box-shadow:0 1px 3px rgba(0,0,0,.22);flex:0 0 34px">
         <div style="min-width:0;flex:1">
@@ -365,7 +432,7 @@ function render() {
         <div style="display:flex;gap:4px;flex:0 0 auto">${cells}</div>
         <div style="display:flex;align-items:center;gap:2px;flex:0 0 auto">
           <button onclick="setStage(${tIdx},-1)" style="cursor:pointer;width:22px;height:26px;border:1px solid #DCE1E6;background:#F5F8FA;color:#6B747C;border-radius:7px 0 0 7px;font-weight:900;font-size:12px;line-height:1">◀</button>
-          <span style="width:50px;text-align:center;font-size:11px;font-weight:800;color:${stageColor}">${SHORT[st.stage]}</span>
+          <span style="width:50px;text-align:center;font-size:11px;font-weight:800;color:${stageColor}">${SHORT[effStg]}</span>
           <button onclick="setStage(${tIdx},1)" style="cursor:pointer;width:22px;height:26px;border:1px solid #DCE1E6;background:#F5F8FA;color:#6B747C;border-radius:0 7px 7px 0;font-weight:900;font-size:12px;line-height:1">▶</button>
         </div>
       </div>`;
@@ -380,8 +447,82 @@ function render() {
   }).join('');
 }
 
+function renderKO() {
+  const el = document.getElementById('ko-bracket');
+  if (!el) return;
+  const roundNames = ['Round of 32','Round of 16','Quarter-finals','Semi-finals','Final'];
+  const roundCols  = ['repeat(auto-fill,minmax(295px,1fr))', 'repeat(auto-fill,minmax(330px,1fr))',
+                       'repeat(auto-fill,minmax(360px,1fr))', 'repeat(2,1fr)', '1fr'];
+
+  el.innerHTML = [0,1,2,3,4].map(r => {
+    const matches = KO_MATCHES.filter(m => m.r === r);
+    const done    = matches.filter(m => koState[m.id]?.winner).length;
+
+    const cards = matches.map(m => {
+      const [tA, tB] = koGetTeams(m.id);
+      const winner   = koState[m.id]?.winner || null;
+      const objA     = tA ? teams.find(x => x.name === tA) : null;
+      const objB     = tB ? teams.find(x => x.name === tB) : null;
+
+      function row(side, teamName, teamObj) {
+        if (!teamName || !teamObj) {
+          return `<div style="display:flex;align-items:center;gap:9px;padding:10px 13px;">
+            <div style="width:30px;height:21px;border-radius:3px;background:#ECEFF2;flex:0 0 30px"></div>
+            <span style="font-weight:700;font-size:13px;color:#C2C9D0;font-style:italic">TBD</span>
+          </div>`;
+        }
+        const isW  = winner === teamName;
+        const isL  = winner && winner !== teamName;
+        const oc   = colorOf[teamObj.owner];
+        const bg   = isW ? '#F0FBF7' : isL ? '#F8F8F8' : '#fff';
+        const nc   = isL ? '#C2C9D0' : '#0D0D0D';
+        const iop  = isL ? 'opacity:.35;' : '';
+        return `<div onclick="setKOWinner('${m.id}','${side}')" style="cursor:pointer;display:flex;align-items:center;gap:9px;padding:10px 13px;background:${bg};transition:background 120ms">
+          <img src="${teamObj.flag}" style="width:30px;height:21px;border-radius:3px;object-fit:cover;flex:0 0 30px;box-shadow:0 1px 2px rgba(0,0,0,.18);${iop}">
+          <div style="flex:1;min-width:0">
+            <div style="font-weight:800;font-size:13px;color:${nc};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${teamName}</div>
+            <div style="display:inline-flex;align-items:center;gap:3px;margin-top:2px;padding:1px 6px 1px 3px;border-radius:999px;background:${oc}1A">
+              <span style="width:12px;height:12px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:7px;font-weight:900;color:#fff;background:${oc}">${initialsOf[teamObj.owner]}</span>
+              <span style="font-size:10px;font-weight:700;color:${oc}">${teamObj.owner}</span>
+            </div>
+          </div>
+          ${isW ? `<span style="font-size:15px;color:#01AF86;flex:0 0 auto">✓</span>` : `<span style="font-size:13px;color:#E0E5EA;flex:0 0 auto">○</span>`}
+        </div>`;
+      }
+
+      const roundColor = KO_ACCENT[r];
+      const winnerObj  = winner ? teams.find(x => x.name === winner) : null;
+      const winnerOwnerColor = winnerObj ? colorOf[winnerObj.owner] : '#01AF86';
+
+      return `<div style="background:#fff;border-radius:16px;box-shadow:0 4px 14px rgba(13,13,13,.07);overflow:hidden">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 13px;background:#F5F8FA;border-bottom:1px solid #ECEFF2">
+          <span style="font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:${roundColor}">${m.id}</span>
+          <span style="font-size:11px;font-weight:600;color:#9AA3AC">${m.date}</span>
+        </div>
+        ${row('a', tA, objA)}
+        <div style="height:1px;background:#ECEFF2;margin:0 13px"></div>
+        ${row('b', tB, objB)}
+        ${winner ? `<div style="padding:5px 13px;background:#E8FBF4;border-top:1px solid #D4F5E6;font-size:11px;font-weight:700;color:${winnerOwnerColor}">▶ ${winner} advances · ${winnerObj ? winnerObj.owner : ''}</div>` : ''}
+      </div>`;
+    }).join('');
+
+    const hint = r === 0 && done < matches.length
+      ? `<span style="font-size:11.5px;font-weight:700;color:#D8940D;margin-left:8px">· click a team to set the winner</span>` : '';
+
+    return `<div style="margin-bottom:24px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap">
+        <span style="background:${KO_ACCENT[r]};color:#fff;font-weight:800;font-size:12px;padding:4px 13px;border-radius:999px;letter-spacing:.03em">${roundNames[r]}</span>
+        <span style="font-size:12px;color:#9AA3AC;font-weight:600">${done} / ${matches.length} results entered</span>
+        ${hint}
+      </div>
+      <div style="display:grid;${roundCols[r]};gap:12px">${cards}</div>
+    </div>`;
+  }).join('');
+}
+
 // Boot
 state = loadState();
+koState = loadKO();
 render();
 </script>
 </body>
