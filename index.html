@@ -52,7 +52,7 @@ button{font-family:inherit}
     <span style="flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;background:#009CDE;color:#fff;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:4px 11px;border-radius:999px">
       <span style="width:7px;height:7px;border-radius:50%;background:#fff;animation:gskPulse 1.8s ease-in-out infinite;display:block"></span>Live
     </span>
-    <span>All group stage complete — <b>Round of 32 begins 28 June</b>. Use ◀ ▶ to advance teams through the knockouts as matches are played.</span>
+    <span>R32: 8/16 complete — <b>Belgium v Senegal &amp; USA v Bosnia playing today (1 Jul)</b>. Spain, Portugal, Argentina, Australia, Colombia play Thu–Fri. Click a team in the bracket to set as winner.</span>
   </div>
 
   <!-- LEADERBOARD -->
@@ -287,7 +287,18 @@ function saveState() {
 }
 
 const KO_KEY = 'gsk-wc26-ko-v1';
-function liveKOState() { return { 'R32-01': { winner: 'Canada' } }; }
+function liveKOState() {
+  return {
+    'R32-01': { winner: 'Canada'   },  // 28 Jun: South Africa 0-1 Canada
+    'R32-02': { winner: 'Morocco'  },  // 29 Jun: Netherlands 1-1 Morocco (pens 2-3)
+    'R32-03': { winner: 'Paraguay' },  // 29 Jun: Germany 1-1 Paraguay (pens 3-4)
+    'R32-04': { winner: 'France'   },  // 30 Jun: France 3-0 Sweden
+    'R32-05': { winner: 'Brazil'   },  // 29 Jun: Brazil 2-1 Japan
+    'R32-06': { winner: 'Norway'   },  // 30 Jun: Norway 2-1 Côte d\'Ivoire
+    'R32-07': { winner: 'Mexico'   },  // 30 Jun: Mexico 2-0 Ecuador
+    'R32-08': { winner: 'England'  },  // 1 Jul:  England 2-0 Congo DR
+  };
+}
 function loadKO() {
   try { const r = localStorage.getItem(KO_KEY); if (r) return JSON.parse(r); } catch(e) {}
   return liveKOState();
