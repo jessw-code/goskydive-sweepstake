@@ -332,6 +332,16 @@ function effectiveStage(teamName) {
   return Math.max((state[teamName] || {}).stage || 0, koComputedStage(teamName));
 }
 
+function koIsEliminated(teamName) {
+  for (const m of KO_MATCHES) {
+    const res = koState[m.id];
+    if (!res) continue;
+    const [ta, tb] = koGetTeams(m.id);
+    if ((ta === teamName || tb === teamName) && res.winner !== teamName) return true;
+  }
+  return false;
+}
+
 // side = 'a' or 'b'; toggles off if already set
 function setKOWinner(matchId, side) {
   const [tA, tB] = koGetTeams(matchId);
@@ -392,20 +402,35 @@ function render() {
     const rankColor = rank <= 3 ? '#fff' : '#6B747C';
     const rankShadow = rank <= 3 ? 'box-shadow:0 2px 6px rgba(0,0,0,.18);' : '';
     const myTeams = teams.filter(t => t.owner === name);
-    const chips = myTeams.map(t => {
+    const eliminated = myTeams.map(t => koIsEliminated(t.name));
+    const allOut = eliminated.every(Boolean) && eliminated.some(Boolean);
+    const chips = myTeams.map((t, ti) => {
       const stg = effectiveStage(t.name);
-      return `<img src="${t.flag}" title="${t.name} · ${SHORT[stg]}" style="width:30px;height:21px;border-radius:4px;object-fit:cover;box-shadow:0 1px 3px rgba(0,0,0,.2);opacity:${stg===0?'0.78':'1'}">`;
+      const out = eliminated[ti];
+      const imgStyle = out
+        ? 'width:30px;height:21px;border-radius:4px;object-fit:cover;filter:grayscale(100%);opacity:0.3;'
+        : `width:30px;height:21px;border-radius:4px;object-fit:cover;box-shadow:0 1px 3px rgba(0,0,0,.2);opacity:${stg===0?'0.78':'1'}`;
+      const title = out ? `${t.name} · Eliminated` : `${t.name} · ${SHORT[stg]}`;
+      return `<div style="position:relative;display:inline-block;flex:0 0 auto">
+        <img src="${t.flag}" title="${title}" style="${imgStyle}">
+        ${out ? `<span style="position:absolute;top:-4px;right:-4px;width:13px;height:13px;border-radius:50%;background:#E1455E;color:#fff;font-size:8px;font-weight:900;display:flex;align-items:center;justify-content:center;line-height:1;border:1.5px solid #fff">✕</span>` : ''}
+      </div>`;
     }).join('');
     const barW = (pts / maxPts * 100).toFixed(1);
-    return `<div style="display:flex;align-items:center;gap:16px;padding:11px 12px;border-radius:14px;border-bottom:1px solid #ECEFF2">
+    const rowBg = allOut ? 'background:#FAFAFA;' : '';
+    const nameColor = allOut ? '#9AA3AC' : 'var(--adventure-black)';
+    const outBadge = allOut ? `<span style="font-size:10px;font-weight:800;letter-spacing:.05em;color:#9AA3AC;background:#ECEFF2;padding:2px 7px;border-radius:999px;margin-left:4px">ALL OUT</span>` : '';
+    return `<div style="display:flex;align-items:center;gap:16px;padding:11px 12px;border-radius:14px;border-bottom:1px solid #ECEFF2;${rowBg}">
       <div style="width:34px;height:34px;flex:0 0 34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;background:${rankBg};color:${rankColor};${rankShadow}">${rank}</div>
-      <div style="width:5px;height:38px;border-radius:999px;flex:0 0 5px;background:${color}"></div>
-      <div style="width:132px;flex:0 0 132px;font-weight:800;font-size:16px;color:var(--adventure-black)">${name}</div>
-      <div style="display:flex;gap:6px;flex:0 0 auto">${chips}</div>
-      <div style="flex:1;height:9px;background:#ECEFF2;border-radius:999px;overflow:hidden;min-width:60px">
-        <div style="width:${barW}%;height:100%;border-radius:999px;background:${color};transition:width 240ms cubic-bezier(0.16,1,0.3,1)"></div>
+      <div style="width:5px;height:38px;border-radius:999px;flex:0 0 5px;background:${allOut ? '#ECEFF2' : color}"></div>
+      <div style="display:flex;align-items:center;width:132px;flex:0 0 132px">
+        <span style="font-weight:800;font-size:16px;color:${nameColor}">${name}</span>${outBadge}
       </div>
-      <div style="flex:0 0 78px;text-align:right;font-weight:900;font-size:20px;color:var(--adventure-black)">${pts}<span style="font-size:11px;font-weight:700;color:#9AA3AC;margin-left:3px">pts</span></div>
+      <div style="display:flex;gap:6px;flex:0 0 auto;align-items:center">${chips}</div>
+      <div style="flex:1;height:9px;background:#ECEFF2;border-radius:999px;overflow:hidden;min-width:60px">
+        <div style="width:${barW}%;height:100%;border-radius:999px;background:${allOut ? '#C2C9D0' : color};transition:width 240ms cubic-bezier(0.16,1,0.3,1)"></div>
+      </div>
+      <div style="flex:0 0 78px;text-align:right;font-weight:900;font-size:20px;color:${nameColor}">${pts}<span style="font-size:11px;font-weight:700;color:#9AA3AC;margin-left:3px">pts</span></div>
     </div>`;
   }).join('');
 
